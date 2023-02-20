@@ -2,6 +2,7 @@ package com.mpm.notas.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,8 +13,13 @@ public class Nota {
     @GeneratedValue
     private int codigo;
 
+    @Column(length = 100, nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private Date fecha;
+
+    @Column(length = 1000, nullable = false)
     private String descripcion;
     
     public Nota(int codigo) {
@@ -71,6 +77,5 @@ public class Nota {
             return false;
         return true;
     }
-
     
 }
