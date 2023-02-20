@@ -1,7 +1,5 @@
 package com.mpm.notas.models;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +15,7 @@ public class Nota {
     private String titulo;
 
     @Column(nullable = false)
-    private Date fecha;
+    private String fecha;
 
     @Column(length = 1000, nullable = false)
     private String descripcion;
@@ -25,12 +23,14 @@ public class Nota {
     public Nota(int codigo) {
         this.codigo = codigo;
     }
-    public Nota(int codigo, String titulo, Date fecha, String descripcion) {
+    
+    public Nota(int codigo, String titulo, String fecha, String descripcion) {
         this.codigo = codigo;
         this.titulo = titulo;
         this.fecha = fecha;
         this.descripcion = descripcion;
     }
+
     public Nota() {
     }
     public int getCodigo() {
@@ -45,12 +45,7 @@ public class Nota {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    public Date getFecha() {
-        return fecha;
-    }
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -76,6 +71,14 @@ public class Nota {
         if (codigo != other.codigo)
             return false;
         return true;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
     
 }

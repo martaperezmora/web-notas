@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mpm.notas.models.Nota;
 import com.mpm.notas.repository.NotasRepository;
 import com.mpm.notas.service.NotasService;
 
+@Service
 public class NotasServiceImpl implements NotasService{
 
     @Autowired
