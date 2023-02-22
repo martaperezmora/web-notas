@@ -46,4 +46,9 @@ public class NotasController {
         notasService.update(nota, codigo);
     }
 
+    @GetMapping("/notas/{cadena}")
+    public List<Nota> findPorTituloFecha(@PathVariable String cadena) {
+        return notasService.findByTitulo(cadena);
+    }
+
 }

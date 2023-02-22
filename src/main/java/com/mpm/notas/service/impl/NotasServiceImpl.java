@@ -54,5 +54,10 @@ public class NotasServiceImpl implements NotasService{
         notasRepository.deleteAll();
         
     }
+
+    @Override
+    public List<Nota> findByTitulo(String cadena) {
+        return notasRepository.findByTitulo(cadena);
+    }
     
 }
