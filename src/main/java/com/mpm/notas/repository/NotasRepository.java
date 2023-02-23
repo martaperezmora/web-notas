@@ -1,5 +1,6 @@
 package com.mpm.notas.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,7 @@ import com.mpm.notas.models.Nota;
 
 @Repository
 public interface NotasRepository extends JpaRepository<Nota, Integer>{
-    public List<Nota> findByTitulo (String cadena);
+    // select * from notas where titulo like %cadena% and fecha >= '23/03/2023';
+    public List<Nota> findByTituloContainingOrFechaGreaterThanEqual (String titulo, Date fecha);
 }
 

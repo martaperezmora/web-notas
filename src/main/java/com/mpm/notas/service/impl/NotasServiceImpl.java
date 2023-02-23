@@ -1,5 +1,6 @@
 package com.mpm.notas.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +57,8 @@ public class NotasServiceImpl implements NotasService{
     }
 
     @Override
-    public List<Nota> findByTitulo(String cadena) {
-        return notasRepository.findByTitulo(cadena);
+    public List<Nota> findByTituloFecha(String cadena, Date fecha) {
+        return notasRepository.findByTituloContainingOrFechaGreaterThanEqual(cadena, fecha);
     }
     
 }

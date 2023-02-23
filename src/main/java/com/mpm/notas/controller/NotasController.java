@@ -1,5 +1,8 @@
 package com.mpm.notas.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import com.mpm.notas.service.NotasService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class NotasController {
@@ -46,9 +50,11 @@ public class NotasController {
         notasService.update(nota, codigo);
     }
 
-    @GetMapping("/notas/{cadena}")
-    public List<Nota> findPorTituloFecha(@PathVariable String cadena) {
-        return notasService.findByTitulo(cadena);
+    @GetMapping("/notas/buscar")
+    public List<Nota> findPorTituloFecha(@RequestParam("cadena") String cadena, @RequestParam("fecha") String fecha) throws ParseException {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+        Date fechaDate = formato.parse(fecha); 
+        return notasService.findByTituloFecha(cadena, fechaDate);
     }
 
 }
