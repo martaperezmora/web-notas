@@ -51,10 +51,10 @@ public class NotasController {
     }
 
     @GetMapping("/notas/buscar")
-    public List<Nota> findPorTituloFecha(@RequestParam("cadena") String cadena, @RequestParam("fecha") String fecha) throws ParseException {
+    public List<Nota> findPorTituloFecha(@RequestParam("titulo") String titulo, @RequestParam("fecha") String fecha) throws ParseException {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
         Date fechaDate = formato.parse(fecha); 
-        return notasService.findByTituloFecha(cadena, fechaDate);
+        return notasService.findByTituloFecha(titulo, fechaDate);
     }
 
 }
