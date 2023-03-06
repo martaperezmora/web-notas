@@ -1,57 +1,65 @@
 package com.mpm.notas.configuration;
-
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-
-@Configuration
+@Component
 public class TokenUtils {
+
+    @Value("${jwt.secret}")   
+    private final static String ACCESS_TOKEN_SECRET = "secretgggdgdgdhhdgsgreyyyyshhshshs";
     
-    private final static String ACCESS_TOKEN_SECRET = "AAKSDHASDHKJADHKJASDH";
-    private final static long ACCESS_VALIDATY_SECONDS = 120;  // tiempo de expiracion en segundos
+    @Value("${jwt.expiration}")   
+    private final static long ACCESS_VALIDATY_SECONDS = 120;
 
-    // metodo para crear token
+
     public static String createToken(String nombre, String username){
+        long expirationTime = ACCESS_VALIDATY_SECONDS * 1000;
 
-        long expirationTime = ACCESS_VALIDATY_SECONDS * 1000;                   // el tiempo de segundos a milisegundos
-        long timeInMillis = GregorianCalendar.getInstance().getTimeInMillis();  // tiempo actual en milisegundos
+        long timeInMillis = GregorianCalendar.getInstance().getTimeInMillis();
+        
         Date expirationDate = new Date(timeInMillis + expirationTime);
 
-        Map<String, Object> extra = new HashMap<String, Object>();
+        Map<String, Object> extra = new HashMap();
         extra.put("nombre", nombre);
 
-        String token = Jwts.builder()  // se construye un token
-            .setSubject(username)
-            .setExpiration(expirationDate)
-            .addClaims(extra)
-            .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
-            .compact();
-
-        return token;
+        return Jwts.builder()
+                .setSubject(username)
+                .setExpiration(expirationDate)
+                .addClaims(extra)
+                .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
+                .compact();
     }
 
-    // metodo para recoger token
-    public static UsernamePasswordAuthenticationToken gAuthenticationToken(String token){
+    public static UsernamePasswordAuthenticationToken gAuthentication(String token){
 
-        Claims claims = Jwts.parserBuilder()
+        try{
+            Claims claims = Jwts.parserBuilder()
             .setSigningKey(ACCESS_TOKEN_SECRET.getBytes())
             .build()
             .parseClaimsJws(token)
             .getBody();
 
-        String username = claims.getSubject();
+            String username = claims.getSubject();
 
-        return new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+            return new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
+
+
+        } catch (JwtException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
